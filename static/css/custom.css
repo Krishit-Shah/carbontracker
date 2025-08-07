@@ -1,0 +1,463 @@
+/* Indian-themed Carbon Footprint Tracker CSS */
+
+/* Custom CSS Variables for Indian Colors */
+:root {
+    --saffron: #FF9933;
+    --white-india: #FFFFFF;
+    --green-india: #138808;
+    --navy-blue: #000080;
+    --earth-brown: #8B4513;
+    --sky-blue: #87CEEB;
+    --sunset-orange: #FF6B35;
+    --forest-green: #228B22;
+    --golden-yellow: #FFD700;
+    --lotus-pink: #FFB6C1;
+    --gradient-saffron: linear-gradient(135deg, #FF9933, #FFD700);
+    --gradient-green: linear-gradient(135deg, #138808, #228B22);
+    --gradient-earth: linear-gradient(135deg, #8B4513, #CD853F);
+}
+
+/* Body and Typography */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+    line-height: 1.6;
+}
+
+/* Custom Navbar Styling */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700 !important;
+}
+
+.bg-success {
+    background: var(--gradient-green) !important;
+}
+
+/* Hero Section */
+.hero-section {
+    background: var(--gradient-saffron);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 Q50,10 80,20 Q90,50 80,80 Q50,90 20,80 Q10,50 20,20 Z" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    background: var(--gradient-green);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    font-weight: 600;
+    padding: 1.25rem;
+}
+
+.card-header.energy {
+    background: var(--gradient-saffron);
+}
+
+.card-header.transport {
+    background: var(--gradient-earth);
+}
+
+.card-header.diet {
+    background: linear-gradient(135deg, var(--forest-green), var(--sky-blue));
+}
+
+/* Stat Cards */
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    border-left: 5px solid var(--saffron);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-left-width: 10px;
+    padding-left: 1.75rem;
+}
+
+.stat-card.green {
+    border-left-color: var(--green-india);
+}
+
+.stat-card.orange {
+    border-left-color: var(--sunset-orange);
+}
+
+.stat-card.blue {
+    border-left-color: var(--sky-blue);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--green-india);
+    line-height: 1;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Progress Bars */
+.progress {
+    height: 12px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    background: var(--gradient-green);
+}
+
+.progress-bar.energy {
+    background: var(--gradient-saffron);
+}
+
+.progress-bar.transport {
+    background: var(--gradient-earth);
+}
+
+.progress-bar.diet {
+    background: linear-gradient(90deg, var(--forest-green), var(--sky-blue));
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--gradient-green);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--gradient-saffron);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.btn-outline-success {
+    border-color: var(--green-india);
+    color: var(--green-india);
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+}
+
+.btn-outline-success:hover {
+    background-color: var(--green-india);
+    border-color: var(--green-india);
+}
+
+.btn-warning {
+    background: var(--gradient-saffron);
+    border: none;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+/* Forms */
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--green-india);
+    box-shadow: 0 0 0 0.2rem rgba(19, 136, 8, 0.25);
+}
+
+.form-label {
+    color: var(--green-india);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+/* Dashboard Widgets */
+.dashboard-widget {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-widget::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-green);
+    opacity: 0.05;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.widget-content {
+    position: relative;
+    z-index: 1;
+}
+
+.widget-title {
+    color: var(--green-india);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.widget-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--forest-green);
+}
+
+.widget-change {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.widget-change.positive {
+    color: #dc3545;
+}
+
+.widget-change.negative {
+    color: #28a745;
+}
+
+/* Eco Tips Styling */
+.eco-tip {
+    background: linear-gradient(135deg, rgba(255, 153, 51, 0.1), rgba(19, 136, 8, 0.1));
+    border-left: 4px solid var(--saffron);
+    border-radius: 0 15px 15px 0;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.eco-tip:hover {
+    background: linear-gradient(135deg, rgba(255, 153, 51, 0.15), rgba(19, 136, 8, 0.15));
+    border-left-width: 6px;
+    padding-left: 1.375rem;
+}
+
+.tip-reduction {
+    background: var(--gradient-green);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+/* Fuel Price Cards */
+.fuel-price-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    border-top: 3px solid var(--saffron);
+}
+
+.fuel-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--earth-brown);
+}
+
+.fuel-type {
+    color: var(--green-india);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Chart Container */
+.chart-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.chart-title {
+    color: var(--green-india);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .dashboard-widget {
+        padding: 1.5rem;
+    }
+    
+    .widget-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--green-india);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Custom Alert Styling */
+.alert-success {
+    background: linear-gradient(135deg, rgba(19, 136, 8, 0.1), rgba(255, 215, 0, 0.1));
+    border-color: var(--green-india);
+    color: var(--forest-green);
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(255, 153, 51, 0.1), rgba(255, 215, 0, 0.1));
+    border-color: var(--saffron);
+    color: var(--earth-brown);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(255, 215, 0, 0.1));
+    border-color: var(--sky-blue);
+    color: var(--navy-blue);
+}
+
+/* Table Styling */
+.table {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.table thead th {
+    background: var(--gradient-green);
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(19, 136, 8, 0.05);
+}
+
+/* Badge Styling */
+.badge {
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+}
+
+.badge.bg-success {
+    background: var(--gradient-green) !important;
+}
+
+.badge.bg-warning {
+    background: var(--gradient-saffron) !important;
+    color: white !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-green);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gradient-saffron);
+}

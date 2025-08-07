@@ -1,0 +1,1 @@
+# Django management commands for the Carbon Footprint Tracker
