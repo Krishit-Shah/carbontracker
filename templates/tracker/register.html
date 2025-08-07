@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 mt-5">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-leaf-fill text-success" style="font-size: 3rem;"></i>
+                        <h2 class="fw-bold text-success mt-3">Join EcoTrack India</h2>
+                        <p class="text-muted">Start your journey to reduce carbon footprint</p>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">
+                                <i class="bi bi-person me-2"></i>Username
+                            </label>
+                            <input type="text" class="form-control" id="{{ form.username.id_for_label }}" 
+                                   name="{{ form.username.name }}" value="{{ form.username.value|default:'' }}"
+                                   placeholder="Choose a username" required>
+                            {% if form.username.errors %}
+                                <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                            {% endif %}
+                            {% if form.username.help_text %}
+                                <div class="text-muted small mt-1">{{ form.username.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                <i class="bi bi-lock me-2"></i>Password
+                            </label>
+                            <input type="password" class="form-control" id="{{ form.password1.id_for_label }}" 
+                                   name="{{ form.password1.name }}" placeholder="Create a strong password" required>
+                            {% if form.password1.errors %}
+                                <div class="text-danger small mt-1">{{ form.password1.errors.0 }}</div>
+                            {% endif %}
+                            {% if form.password1.help_text %}
+                                <div class="text-muted small mt-1">{{ form.password1.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                <i class="bi bi-lock-fill me-2"></i>Confirm Password
+                            </label>
+                            <input type="password" class="form-control" id="{{ form.password2.id_for_label }}" 
+                                   name="{{ form.password2.name }}" placeholder="Confirm your password" required>
+                            {% if form.password2.errors %}
+                                <div class="text-danger small mt-1">{{ form.password2.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors.0 }}
+                            </div>
+                        {% endif %}
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-person-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <hr>
+                        <p class="mb-0">
+                            Already have an account?
+                            <a href="{% url 'login' %}" class="text-success fw-bold text-decoration-none">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Login here
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="mt-4">
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="text-success fw-bold mb-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>Why Join EcoTrack India?
+                        </h6>
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-lightning-charge text-warning me-1"></i>
+                                    Track energy usage
+                                </small>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-car-front text-info me-1"></i>
+                                    Monitor transport
+                                </small>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-heart-pulse text-success me-1"></i>
+                                    Analyze diet impact
+                                </small>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-graph-up text-primary me-1"></i>
+                                    Get insights
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

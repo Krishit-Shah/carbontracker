@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Household Setup{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 mt-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-house-fill text-success" style="font-size: 3rem;"></i>
+                        <h2 class="fw-bold text-success mt-3">Setup Your Household</h2>
+                        <p class="text-muted">Tell us about your family to get personalized insights</p>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                <i class="bi bi-people me-2"></i>Household/Family Name
+                            </label>
+                            <input type="text" class="form-control" id="name" name="name" 
+                                   placeholder="e.g., The Sharma Family" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="house_type" class="form-label">
+                                    <i class="bi bi-house me-2"></i>House Type
+                                </label>
+                                <select class="form-select" id="house_type" name="house_type" required>
+                                    <option value="">Select house type</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="independent">Independent House</option>
+                                    <option value="villa">Villa</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="members_count" class="form-label">
+                                    <i class="bi bi-person-plus me-2"></i>Number of Members
+                                </label>
+                                <input type="number" class="form-control" id="members_count" name="members_count" 
+                                       min="1" max="20" placeholder="4" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="state" class="form-label">
+                                    <i class="bi bi-geo-alt me-2"></i>State
+                                </label>
+                                <select class="form-select" id="state" name="state">
+                                    <option value="">Select your state</option>
+                                    {% for state in states %}
+                                    <option value="{{ state.id }}">{{ state.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">
+                                    <i class="bi bi-building me-2"></i>City
+                                </label>
+                                <input type="text" class="form-control" id="city" name="city" 
+                                       placeholder="e.g., Mumbai, Delhi" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="income_range" class="form-label">
+                                <i class="bi bi-currency-rupee me-2"></i>Annual Household Income (Optional)
+                            </label>
+                            <select class="form-select" id="income_range" name="income_range">
+                                <option value="">Prefer not to say</option>
+                                <option value="below_2lakh">Below ₹2 Lakh</option>
+                                <option value="2_5lakh">₹2-5 Lakh</option>
+                                <option value="5_10lakh">₹5-10 Lakh</option>
+                                <option value="10_25lakh">₹10-25 Lakh</option>
+                                <option value="above_25lakh">Above ₹25 Lakh</option>
+                            </select>
+                            <div class="form-text">
+                                <i class="bi bi-info-circle me-1"></i>
+                                This helps us provide more accurate comparisons and tips
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-circle me-2"></i>Complete Setup
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Next Steps Info -->
+            <div class="card mt-4 bg-light border-0">
+                <div class="card-body">
+                    <h6 class="text-success fw-bold mb-3">
+                        <i class="bi bi-arrow-right-circle me-2"></i>What happens next?
+                    </h6>
+                    <div class="row">
+                        <div class="col-md-4 mb-3 text-center">
+                            <i class="bi bi-speedometer2 text-success" style="font-size: 2rem;"></i>
+                            <div class="fw-bold mt-2">Dashboard Access</div>
+                            <small class="text-muted">View your emissions overview</small>
+                        </div>
+                        <div class="col-md-4 mb-3 text-center">
+                            <i class="bi bi-plus-circle text-warning" style="font-size: 2rem;"></i>
+                            <div class="fw-bold mt-2">Start Tracking</div>
+                            <small class="text-muted">Add your energy, transport & diet data</small>
+                        </div>
+                        <div class="col-md-4 mb-3 text-center">
+                            <i class="bi bi-graph-up text-info" style="font-size: 2rem;"></i>
+                            <div class="fw-bold mt-2">Get Insights</div>
+                            <small class="text-muted">Discover reduction opportunities</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block main_class %}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content fade-in">
+            <h1 class="display-4 fw-bold mb-4">
+                🌱 Track Your Carbon Footprint
+            </h1>
+            <p class="lead mb-5">
+                Join thousands of Indian households in measuring and reducing their environmental impact. 
+                Small changes, big impact for our planet! 🇮🇳
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-4">
+                        <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                    </a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4">
+                        <i class="bi bi-person-plus me-2"></i>Start Tracking
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="stat-card slide-up">
+                    <div class="stat-number">{{ total_users|default:"500+" }}</div>
+                    <div class="stat-label">
+                        <i class="bi bi-people-fill me-1"></i>
+                        Households Registered
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stat-card green slide-up" style="animation-delay: 0.2s;">
+                    <div class="stat-number">{{ total_emissions_tracked|floatformat:0|default:"25,000+" }}</div>
+                    <div class="stat-label">
+                        <i class="bi bi-cloud me-1"></i>
+                        kg CO₂ Tracked
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stat-card orange slide-up" style="animation-delay: 0.4s;">
+                    <div class="stat-number">1.9T</div>
+                    <div class="stat-label">
+                        <i class="bi bi-globe me-1"></i>
+                        Avg. Indian CO₂/year
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-success">
+                <i class="bi bi-gear-fill me-3"></i>Key Features
+            </h2>
+            <p class="lead text-muted">
+                Everything you need to understand and reduce your environmental impact
+            </p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header energy">
+                        <h5 class="mb-0">
+                            <i class="bi bi-lightning-charge me-2"></i>
+                            Energy Tracking
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Monitor electricity, LPG, and other energy consumption. 
+                            Get personalized tips to reduce energy bills and carbon footprint.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Electricity usage tracking</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>LPG consumption monitoring</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Real-time fuel prices</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Energy-saving tips</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header transport">
+                        <h5 class="mb-0">
+                            <i class="bi bi-car-front me-2"></i>
+                            Transportation
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Track your daily commute, business travel, and vacation trips. 
+                            Compare different transport modes and find eco-friendly alternatives.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Multi-modal transport tracking</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Public transport incentives</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Fuel efficiency calculator</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Carpool suggestions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header diet">
+                        <h5 class="mb-0">
+                            <i class="bi bi-heart-pulse me-2"></i>
+                            Diet & Lifestyle
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Understand the environmental impact of your food choices. 
+                            Get Indian cuisine-specific recommendations for sustainable eating.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Indian diet analysis</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Food waste tracking</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Local produce suggestions</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Seasonal food recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Preview Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4">
+                <h2 class="display-5 fw-bold text-success mb-4">
+                    📊 Visual Analytics
+                </h2>
+                <p class="lead mb-4">
+                    Get comprehensive insights into your carbon footprint with beautiful, 
+                    easy-to-understand charts and comparisons.
+                </p>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success text-white rounded-circle p-3 me-3">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Trend Analysis</h6>
+                                <small class="text-muted">Monthly progress tracking</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-warning text-white rounded-circle p-3 me-3">
+                                <i class="bi bi-pie-chart"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Breakdowns</h6>
+                                <small class="text-muted">Category-wise analysis</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-info text-white rounded-circle p-3 me-3">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Comparisons</h6>
+                                <small class="text-muted">Against national averages</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success text-white rounded-circle p-3 me-3">
+                                <i class="bi bi-target"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Goal Setting</h6>
+                                <small class="text-muted">Personal reduction targets</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <canvas id="previewChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Eco Tips Section -->
+{% if recent_tips %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold text-success">
+                <i class="bi bi-lightbulb-fill me-3"></i>Latest Eco Tips
+            </h2>
+            <p class="lead text-muted">
+                Practical advice for reducing your environmental impact
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for tip in recent_tips %}
+            <div class="col-lg-4 mb-4">
+                <div class="eco-tip h-100">
+                    <h5 class="text-success fw-bold mb-3">{{ tip.title }}</h5>
+                    <p class="mb-3">{{ tip.content|truncatewords:20 }}</p>
+                    {% if tip.potential_reduction %}
+                    <span class="tip-reduction">
+                        <i class="bi bi-arrow-down me-1"></i>
+                        Save {{ tip.potential_reduction }} kg CO₂/month
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'eco_tips' %}" class="btn btn-success btn-lg">
+                <i class="bi bi-arrow-right me-2"></i>View All Tips
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+{% if not user.is_authenticated %}
+<section class="py-5 bg-success text-white">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">
+            Ready to Make a Difference? 🌍
+        </h2>
+        <p class="lead mb-4">
+            Join the movement of environmentally conscious Indians. 
+            Start tracking your carbon footprint today!
+        </p>
+        <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5">
+            <i class="bi bi-person-plus me-2"></i>
+            Get Started Free
+        </a>
+        <p class="mt-3 mb-0">
+            <small>Already have an account? <a href="{% url 'login' %}" class="text-warning">Login here</a></small>
+        </p>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Preview Chart
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('previewChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Energy',
+                data: [65, 59, 80, 81, 56, 55],
+                borderColor: '#FF9933',
+                backgroundColor: 'rgba(255, 153, 51, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Transport',
+                data: [28, 48, 40, 19, 86, 27],
+                borderColor: '#8B4513',
+                backgroundColor: 'rgba(139, 69, 19, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Diet',
+                data: [45, 35, 45, 40, 35, 40],
+                borderColor: '#138808',
+                backgroundColor: 'rgba(19, 136, 8, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'kg CO₂'
+                    }
+                }
+            }
+        }
+    });
+});
+
+// Add animation delays to cards
+document.querySelectorAll('.slide-up').forEach((el, index) => {
+    el.style.animationDelay = `${index * 0.2}s`;
+});
+</script>
+{% endblock %}

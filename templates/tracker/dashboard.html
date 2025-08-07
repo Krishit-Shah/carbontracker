@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6 fw-bold text-success mb-2">
+                        <i class="bi bi-speedometer2 me-3"></i>Dashboard
+                    </h1>
+                    <p class="text-muted mb-0">
+                        Welcome back, {{ household.name }}! Track your environmental impact.
+                    </p>
+                </div>
+                <div class="text-end">
+                    <div class="badge bg-success fs-6 p-3">
+                        <i class="bi bi-people-fill me-2"></i>
+                        {{ household.members_count }} member{{ household.members_count|pluralize }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Month Stats -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="dashboard-widget">
+                <div class="widget-content">
+                    <div class="widget-title">
+                        <i class="bi bi-cloud-fill me-2"></i>
+                        Total Emissions
+                    </div>
+                    <div class="widget-value">
+                        {{ current_summary.total_emissions|floatformat:1 }}
+                        <small class="text-muted">kg CO₂</small>
+                    </div>
+                    {% if trend %}
+                    <div class="widget-change {% if trend > 0 %}positive{% else %}negative{% endif %}">
+                        <i class="bi {% if trend > 0 %}bi-arrow-up{% else %}bi-arrow-down{% endif %} me-1"></i>
+                        {{ trend|floatformat:1 }}% from last month
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="dashboard-widget">
+                <div class="widget-content">
+                    <div class="widget-title">
+                        <i class="bi bi-person-fill me-2"></i>
+                        Per Capita
+                    </div>
+                    <div class="widget-value">
+                        {{ current_summary.per_capita_emissions|floatformat:1 }}
+                        <small class="text-muted">kg CO₂</small>
+                    </div>
+                    <div class="widget-change">
+                        <i class="bi bi-info-circle me-1"></i>
+                        National avg: 158 kg/month
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="dashboard-widget">
+                <div class="widget-content">
+                    <div class="widget-title">
+                        <i class="bi bi-lightning-fill me-2"></i>
+                        Energy Usage
+                    </div>
+                    <div class="widget-value">
+                        {{ current_summary.total_energy_emissions|floatformat:1 }}
+                        <small class="text-muted">kg CO₂</small>
+                    </div>
+                    <div class="progress mt-2">
+                        <div class="progress-bar energy" style="width: {% widthratio current_summary.total_energy_emissions current_summary.total_emissions 100 %}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="dashboard-widget">
+                <div class="widget-content">
+                    <div class="widget-title">
+                        <i class="bi bi-car-front-fill me-2"></i>
+                        Transport
+                    </div>
+                    <div class="widget-value">
+                        {{ current_summary.total_transport_emissions|floatformat:1 }}
+                        <small class="text-muted">kg CO₂</small>
+                    </div>
+                    <div class="progress mt-2">
+                        <div class="progress-bar transport" style="width: {% widthratio current_summary.total_transport_emissions current_summary.total_emissions 100 %}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Charts Section -->
+        <div class="col-lg-8 mb-4">
+            <!-- Monthly Trend Chart -->
+            <div class="chart-container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="chart-title mb-0">Monthly Emissions Trend</h4>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="updateChartPeriod('3months')">3M</button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="updateChartPeriod('6months')">6M</button>
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="updateChartPeriod('1year')">1Y</button>
+                    </div>
+                </div>
+                <canvas id="trendChart" height="300"></canvas>
+            </div>
+
+            <!-- Emission Breakdown Chart -->
+            <div class="chart-container mt-4">
+                <h4 class="chart-title">Current Month Breakdown</h4>
+                <canvas id="breakdownChart" height="250"></canvas>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>Quick Add Data
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'add_energy' %}" class="btn btn-outline-warning">
+                            <i class="bi bi-lightning-charge me-2"></i>Energy Usage
+                        </a>
+                        <a href="{% url 'add_transport' %}" class="btn btn-outline-info">
+                            <i class="bi bi-car-front me-2"></i>Transportation
+                        </a>
+                        <a href="{% url 'add_diet' %}" class="btn btn-outline-success">
+                            <i class="bi bi-heart-pulse me-2"></i>Diet Data
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eco Tips -->
+            {% if tips %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightbulb me-2"></i>Eco Tips for You
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for tip in tips %}
+                    <div class="eco-tip mb-3">
+                        <h6 class="fw-bold mb-2">{{ tip.title }}</h6>
+                        <p class="small mb-2">{{ tip.content|truncatewords:15 }}</p>
+                        {% if tip.potential_reduction %}
+                        <span class="badge bg-success">
+                            <i class="bi bi-arrow-down me-1"></i>
+                            Save {{ tip.potential_reduction }} kg CO₂
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% if not forloop.last %}<hr>{% endif %}
+                    {% endfor %}
+                    <div class="text-center mt-3">
+                        <a href="{% url 'eco_tips' %}" class="btn btn-sm btn-success">
+                            View All Tips
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Fuel Prices -->
+            {% if fuel_prices %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-fuel-pump me-2"></i>Today's Fuel Prices
+                        {% if household.state %}
+                        <small class="text-muted">({{ household.state.name }})</small>
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for price in fuel_prices %}
+                    <div class="fuel-price-card">
+                        <div class="fuel-type">{{ price.get_fuel_type_display }}</div>
+                        <div class="fuel-price">₹{{ price.price }}</div>
+                        <small class="text-muted">{{ price.unit }}</small>
+                    </div>
+                    {% endfor %}
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Prices updated daily via web scraping
+                    </small>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clock-history me-2"></i>Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6 class="text-success">Energy Usage</h6>
+                            <div class="small text-muted">
+                                Last entry: 3 days ago<br>
+                                <strong>450 kWh electricity</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-info">Transportation</h6>
+                            <div class="small text-muted">
+                                Last entry: 1 day ago<br>
+                                <strong>15 km by car</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-warning">Diet</h6>
+                            <div class="small text-muted">
+                                Last entry: 5 days ago<br>
+                                <strong>Vegetarian diet</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'reports' %}" class="btn btn-outline-success">
+                            <i class="bi bi-graph-up me-2"></i>View Detailed Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Chart data from Django
+const chartData = {{ chart_data|safe }};
+
+// Monthly Trend Chart
+let trendChart;
+document.addEventListener('DOMContentLoaded', function() {
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    trendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: chartData.months,
+            datasets: [{
+                label: 'Energy',
+                data: chartData.energy,
+                borderColor: '#FF9933',
+                backgroundColor: 'rgba(255, 153, 51, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Transport',
+                data: chartData.transport,
+                borderColor: '#8B4513',
+                backgroundColor: 'rgba(139, 69, 19, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Diet',
+                data: chartData.diet,
+                borderColor: '#138808',
+                backgroundColor: 'rgba(19, 136, 8, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'kg CO₂'
+                    }
+                }
+            }
+        }
+    });
+
+    // Breakdown Pie Chart
+    const breakdownCtx = document.getElementById('breakdownChart').getContext('2d');
+    new Chart(breakdownCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Energy', 'Transport', 'Diet'],
+            datasets: [{
+                data: [
+                    {{ current_summary.total_energy_emissions|default:0 }},
+                    {{ current_summary.total_transport_emissions|default:0 }},
+                    {{ current_summary.total_diet_emissions|default:0 }}
+                ],
+                backgroundColor: [
+                    '#FF9933',
+                    '#8B4513',
+                    '#138808'
+                ],
+                borderWidth: 3,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+});
+
+// Update chart period function
+function updateChartPeriod(period) {
+    fetch(`/ajax/chart-data/?period=${period}`)
+        .then(response => response.json())
+        .then(data => {
+            trendChart.data.labels = data.months;
+            trendChart.data.datasets[0].data = data.energy;
+            trendChart.data.datasets[1].data = data.transport;
+            trendChart.data.datasets[2].data = data.diet;
+            trendChart.update();
+        })
+        .catch(error => console.error('Error updating chart:', error));
+    
+    // Update button states
+    document.querySelectorAll('.btn-group .btn').forEach(btn => {
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-outline-success');
+    });
+    event.target.classList.remove('btn-outline-success');
+    event.target.classList.add('btn-success');
+}
+
+// Add animation to widgets on load
+document.querySelectorAll('.dashboard-widget').forEach((widget, index) => {
+    widget.style.animationDelay = `${index * 0.1}s`;
+    widget.classList.add('fade-in');
+});
+</script>
+{% endblock %}
